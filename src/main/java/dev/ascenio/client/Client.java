@@ -14,12 +14,18 @@ public class Client implements Runnable, Closeable {
     private final List<Server> servers;
     private final BlockingQueue<String> queue;
     private final AtomicBoolean running;
+    private final int clientID;
 
-    public Client(List<Host> hosts) {
+    public Client(List<Host> hosts, int clientID) {
         this.hosts = hosts;
         this.servers = new ArrayList<>();
         this.queue = new LinkedBlockingQueue<>();
         this.running = new AtomicBoolean(true);
+        this.clientID = clientID;
+    }
+
+    public int getClientID() {
+        return clientID;
     }
 
     public void send(String message) {
@@ -40,8 +46,8 @@ public class Client implements Runnable, Closeable {
         }
         while (running.get()) {
             try {
-                String message = queue.take();
-                System.out.println("\u001B[0;31m> Sending \u001B[1;31m" + message);
+                String message = queue.take() + clientID;
+                System.out.println("\u001B[0;31m[" + clientID + "]> Sending \u001B[1;31m" + message);
                 for (Server server : servers) {
                     server.send(message);
                 }
