@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import dev.ascenio.client.Host;
-
 public class Env {
     private final String resource;
     private final Properties properties;

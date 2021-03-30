@@ -1,4 +1,4 @@
-package dev.ascenio.client;
+package dev.ascenio;
 
 import java.net.InetAddress;
 

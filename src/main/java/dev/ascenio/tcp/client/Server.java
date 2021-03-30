@@ -1,4 +1,4 @@
-package dev.ascenio.client;
+package dev.ascenio.tcp.client;
 
 import java.io.Closeable;
 import java.io.IOException;

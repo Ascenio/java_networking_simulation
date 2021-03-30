@@ -1,4 +1,4 @@
-package dev.ascenio.client;
+package dev.ascenio.tcp.client;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import dev.ascenio.Host;
 import dev.ascenio.Payload;
 
 public class Client implements Runnable, Closeable {

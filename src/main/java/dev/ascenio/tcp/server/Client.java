@@ -1,4 +1,4 @@
-package dev.ascenio.server;
+package dev.ascenio.tcp.server;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
