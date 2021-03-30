@@ -9,10 +9,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import dev.ascenio.Payload;
+
 public class Client implements Runnable, Closeable {
     private final List<Host> hosts;
     private final List<Server> servers;
-    private final BlockingQueue<String> queue;
+    private final BlockingQueue<Payload> queue;
     private final AtomicBoolean running;
     private final int clientID;
 
@@ -28,8 +30,8 @@ public class Client implements Runnable, Closeable {
         return clientID;
     }
 
-    public void send(String message) {
-        queue.add(message);
+    public void send(Payload payload) {
+        queue.add(payload);
     }
 
     @Override
@@ -46,10 +48,15 @@ public class Client implements Runnable, Closeable {
         }
         while (running.get()) {
             try {
-                String message = queue.take() + clientID;
-                System.out.println("\u001B[0;31m[" + clientID + "]> Sending \u001B[1;31m" + message);
+                Payload payload = queue.take();
+                if (payload.isInteger()) {
+                    payload.append(clientID);
+                } else {
+                    payload.append(String.valueOf(clientID));
+                }
+                System.out.println("\u001B[0;31m[" + clientID + "]> Sending \u001B[1;31m" + payload);
                 for (Server server : servers) {
-                    server.send(message);
+                    server.send(payload);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

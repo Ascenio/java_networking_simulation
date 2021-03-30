@@ -33,7 +33,7 @@ public final class App {
 
     private static void startClient(Client client) throws InterruptedException {
         try {
-            // Espera os servidores subirem
+            // Awaits for the servers to turn on
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -41,8 +41,12 @@ public final class App {
         new Thread(client).start();
         Random random = new Random();
         while (true) {
+            if (random.nextBoolean()) {
+                client.send(new Payload("", client.getClientID()));
+            } else {
+                client.send(new Payload(0, client.getClientID()));
+            }
             Thread.sleep(random.nextInt(3000));
-            client.send("");
         }
     }
 }
